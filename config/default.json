@@ -1,0 +1,4 @@
+{
+    "mongoURI":
+    "mongodb+srv://mernstarterDb:e9TfW1mXzXCZ9X4y@mernstarter.nnz8n.mongodb.net/<dbname>?retryWrites=true&w=majority"
+}
