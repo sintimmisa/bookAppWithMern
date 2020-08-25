@@ -1,7 +1,7 @@
 {
-  "name": "mernstarter",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "This is a Starter for MERN Stack Project",
+  "description": "This is the backend of a simple book app project with  MERN Stack ",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
