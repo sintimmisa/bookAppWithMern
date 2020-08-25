@@ -1,3 +1,8 @@
 {
-    "presets": ["@babel/preset-env","@babel/preset-react"]
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
+  /*Fix Babel Error:
+  [BABEL] Note: The code generator has deoptimised the styling of e\MernStarter\client\node_modules\react-dom\cjs\
+  react-dom.development.js as it exceeds the max of 500KB.
+  */
+ "compact": false
 }
