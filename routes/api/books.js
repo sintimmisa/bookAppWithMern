@@ -1,69 +1,59 @@
 const express = require("express");
-
-//Import Router from expres module
 const router = express.Router();
 
-/*import the BookDb Schema from the model dir
-  This will be used to load Book model
-*/
-const Book= require("../../models/Book");
+// Load Book model
+const Book = require("../../models/Book");
 
-/*Describe a test routs to test the api*/
-router.get("/test", (req, res) => {
-    res.send("Testing book route!");
-});
+// @route GET api/books/test
+// @description tests books route
+// @access Public
+router.get("/test", (req, res) => res.send("book route testing!"));
 
-/*Get All books*/
+// @route GET api/books
+// @description Get all books
+// @access Public
 router.get("/", (req, res) => {
-    Book.find().then((book) => { res.json(book) }).catch((err) => {
-        res.status(404).json({
-            nobooksfound: "No Books Found"
-        });
-    });
+  Book.find()
+    .then((books) => res.json(books))
+    .catch((err) => res.status(404).json({ nobooksfound: "No Books found" }));
 });
 
-/*Get Single Book by ID*/
+// @route GET api/books/:id
+// @description Get single book by id
+// @access Public
 router.get("/:id", (req, res) => {
-    Book.findById(req.params.id).then((book) => { res.json(book) }).catch((err) => {
-        res.status(404).json({
-          nobooksfound: "No Books Found"
-        });
-    });
+  Book.findById(req.params.id)
+    .then((book) => res.json(book))
+    .catch((err) => res.status(404).json({ nobookfound: "No Book found" }));
 });
 
-/*Add/Save Book*/
+// @route GET api/books
+// @description add/save book
+// @access Public
 router.post("/", (req, res) => {
-    Book.create(req.body).then((book) => {
-        res.json({ Msg: "Book Successfully Added" }).catch((err) => {
-            res.status(404).json({
-                error: "Unable to Add this book"
-            })
-        });
-    });
+  Book.create(req.body)
+    .then((book) => res.json({ msg: "Book added successfully" }))
+    .catch((err) => res.status(400).json({ error: "Unable to add this book" }));
 });
 
-
-/*Update Book data*/
+// @route GET api/books/:id
+// @description Update book
+// @access Public
 router.put("/:id", (req, res) => {
-    Book.findByIdAndUpdate(req.params.id, req.body).then((book) => {
-        res.json({ msg: "Updated successfully" }).catch((err) => {
-            res.status(400).json({
-                error: "Unable to Update"
-            });
-        });
-    });
+  Book.findByIdAndUpdate(req.params.id, req.body)
+    .then((book) => res.json({ msg: "Updated successfully" }))
+    .catch((err) =>
+      res.status(400).json({ error: "Unable to update the Database" })
+    );
 });
 
+// @route GET api/books/:id
+// @description Delete book by id
+// @access Public
+router.delete("/:id", (req, res) => {
+  Book.findByIdAndRemove(req.params.id, req.body)
+    .then((book) => res.json({ mgs: "Book entry deleted successfully" }))
+    .catch((err) => res.status(404).json({ error: "No such a book" }));
+});
 
-/*delete Book*/
-router.delete('/:id', (req, res) => {
-    Book.findByIdAndRemove(req.params.id, req.body).then((book)=>{
-        res.json({ msg: "Book Successfully Deleted" }).catch((err) => {
-            res.status(404).json({
-                msg: "Unable to Delete"
-            });
-        });
-    });
-});;
-//Export router
 module.exports = router;

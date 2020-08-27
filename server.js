@@ -1,24 +1,26 @@
-const express =require("express");
+const express = require("express");
 const connectDB = require("./config/db");
-//import router form routes/api to impliment api in app
+var cors = require("cors");
+
+// routes
 const books = require("./routes/api/books");
 
-//Initialize express
 const app = express();
 
-
-//Declare Port
-const port = process.env.PORT || 8082;
-
-// CAll the Connect Database function from ./config/db.js
+// Connect Database
 connectDB();
 
+// cors
+app.use(cors({ origin: true, credentials: true }));
 
+// Init Middleware
+app.use(express.json({ extended: false }));
 
-app.get("/",/*@Callback */(req, res) => {
-    res.send("Hello Node App")
-});
+app.get("/", (req, res) => res.send("Hello world!"));
 
-app.listen(port, () => {
-    console.log(`Server Listening at localhost:${port}`)
-})
+// use Routes
+app.use("/api/books", books);
+
+const port = process.env.PORT || 8082;
+
+app.listen(port, () => console.log(`Server running on port ${port}`));
