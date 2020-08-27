@@ -36,6 +36,35 @@ class UpdateBookInfo extends React.Component {
       });
     };
 
+
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  onSubmit = e => {
+    e.preventDefault();
+
+    const data = {
+      title: this.state.title,
+      isbn: this.state.isbn,
+      author: this.state.author,
+      description: this.state.description,
+      published_date: this.state.published_date,
+      publisher: this.state.publisher
+    };
+
+    axios
+      .put('http://localhost:8082/api/books/' + this.props.match.params.id, data)
+      .then(res => {
+        this.props.history.push('/show-book/' + this.props.match.params.id);
+      })
+      .catch(err => {
+        console.log("Error in UpdateBookInfo!");
+      })
+  };
+
+
+
   render() {
     return (
         <div className="UpdateBookInfo">
